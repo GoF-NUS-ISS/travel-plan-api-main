@@ -1,0 +1,23 @@
+{
+    "containerDefinitions": [ 
+       { 
+          "essential": true,
+          "name": "travel-plan-api",
+          "portMappings": [ 
+             { 
+                "containerPort": 8001,
+                "hostPort": 8001,
+                "protocol": "tcp"
+             }
+          ]
+       }
+    ],
+    "cpu": "256",
+    "executionRoleArn": "arn:aws:iam::356567610291:role/ecsTaskExecutionRole",
+    "family": "fargate-task-definition-api-main",
+    "memory": "512",
+    "networkMode": "awsvpc",
+    "requiresCompatibilities": [ 
+        "FARGATE" 
+     ]
+ }
