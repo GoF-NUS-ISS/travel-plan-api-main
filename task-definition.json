@@ -14,7 +14,7 @@
     ],
     "cpu": "256",
     "executionRoleArn": "arn:aws:iam::356567610291:role/ecsTaskExecutionRole",
-    "family": "fargate-task-definition-api-main",
+    "family": "task-def-travel-plan-api-main",
     "memory": "512",
     "networkMode": "awsvpc",
     "requiresCompatibilities": [ 

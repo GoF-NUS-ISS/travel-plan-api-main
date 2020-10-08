@@ -73,14 +73,14 @@ jobs:
 #        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 #        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
-    - name: Read .env file containing tag name
-      id: read-generated-image-tag-name
-      uses: juliangruber/read-file-action@v1
-      with:
-        path: ./microservicecloud/.env
+#    - name: Read .env file containing tag name
+#      id: read-generated-image-tag-name
+#      uses: juliangruber/read-file-action@v1
+#      with:
+#        path: ./microservicecloud/.env
 
-    - name: Echo tag name from .env
-        run: echo ${{ steps.read-generated-image-tag-name.outputs.content }}
+#    - name: Echo tag name from .env
+#        run: echo ${{ steps.read-generated-image-tag-name.outputs.content }}
 
     - name: Echo tag name from git sha
         run: echo ${{ github.sha }}
@@ -92,7 +92,7 @@ jobs:
       with:
         task-definition: task-definition.json
         container-name: travel-plan-api
-        image: docker.io/gofnusiss/travel-plan-api:{{ steps.read-generated-image-tag-name.outputs.content}}
+        image: docker.io/gofnusiss/travel-plan-api:${{ github.sha }}
 #        image: ${{ steps.build-image.outputs.image }}
 
     - name: Deploy Amazon ECS task definition
@@ -100,6 +100,6 @@ jobs:
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
         task-definition: ${{ steps.task-def.outputs.task-definition }}
-        # service: service-travel-plan-ui
+        service: service-travel-plan-api-main
         cluster: travel-plan-app-env-prod
         wait-for-service-stability: true
