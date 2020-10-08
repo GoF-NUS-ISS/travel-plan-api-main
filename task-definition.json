@@ -9,7 +9,21 @@
                 "hostPort": 8001,
                 "protocol": "tcp"
              }
-          ]
+          ],
+         "mountPoints": [
+           {
+             "containerPath": "/log",
+             "sourceVolume": "./log"
+           }
+         ],
+         "logConfiguration":{
+           "logDriver":"awslogs",
+           "options":{
+             "awslogs-group":"/ecs/traval-plan-api-main",
+             "awslogs-region":"us-east-1",
+             "awslogs-stream-prefix":"mongo"
+           }
+         }
        },
       {
         "essential": true,
@@ -30,7 +44,15 @@
             "containerPath": "/data/db",
             "sourceVolume": "/opt/mongodb"
           }
-        ]
+        ],
+        "logConfiguration":{
+          "logDriver":"awslogs",
+          "options":{
+            "awslogs-group":"/ecs/traval-plan-api-main",
+            "awslogs-region":"us-east-1",
+            "awslogs-stream-prefix":"mongo"
+          }
+        }
       },
       {
         "command": [
@@ -54,7 +76,15 @@
             "containerPort": 6379,
             "hostPort": 6379
           }
-        ]
+        ],
+        "logConfiguration":{
+          "logDriver":"awslogs",
+          "options":{
+            "awslogs-group":"/ecs/traval-plan-api-main",
+            "awslogs-region":"us-east-1",
+            "awslogs-stream-prefix":"redis"
+          }
+        }
       },
       {
         "command": [
@@ -90,9 +120,19 @@
             "containerPort": 6650,
             "hostPort": 6650
           }
-        ]
+        ],
+        "logConfiguration":{
+          "logDriver":"awslogs",
+          "options":{
+            "awslogs-group":"/ecs/traval-plan-api-main",
+            "awslogs-region":"us-east-1",
+            "awslogs-stream-prefix":"pulsar"
+          }
+        }
       }
+
     ],
+
     "cpu": "256",
     "executionRoleArn": "arn:aws:iam::356567610291:role/ecsTaskExecutionRole",
     "family": "task-def-travel-plan-api-main",
@@ -100,5 +140,22 @@
     "networkMode": "awsvpc",
     "requiresCompatibilities": [ 
         "FARGATE" 
-     ]
+     ],
+    "logConfiguration":{
+      "logDriver":"awslogs",
+      "options":{
+        "awslogs-group":"/ecs/traval-plan-api-main",
+        "awslogs-region":"us-east-1",
+        "awslogs-stream-prefix":"ecs"
+      }
+    },
+    "volumes": [
+      {
+        "name": "efs-volume",
+        "efsVolumeConfiguration": {
+          "fileSystemId": "fs-b09bcf32",
+          "rootDirectory": "/data"
+        }
+      }
+    ]
  }
