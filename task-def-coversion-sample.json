@@ -1,0 +1,375 @@
+{
+  "containerDefinitions": [
+    {
+      "environment": [
+        {
+          "name": "ES_JAVA_OPTS",
+          "value": "-Xms512m -Xmx512m"
+        }
+      ],
+      "essential": true,
+      "image": "docker.elastic.co/elasticsearch/elasticsearch:7.9.0",
+      "mountPoints": [
+        {
+          "containerPath": "/usr/share/elasticsearch/config/elasticsearch.yml",
+          "sourceVolume": "_Elasticsearch_Yml"
+        },
+        {
+          "containerPath": "/usr/share/elasticsearch/config/elasticsearch.key",
+          "sourceVolume": "_Bundle-SslElasticsearchElasticsearch_Key"
+        },
+        {
+          "containerPath": "/usr/share/elasticsearch/config/elasticsearch.crt",
+          "sourceVolume": "_Bundle-SslElasticsearchElasticsearch_Crt"
+        },
+        {
+          "containerPath": "/usr/share/elasticsearch/config/ca.crt",
+          "sourceVolume": "_Bundle-SslCaCa_Crt"
+        },
+        {
+          "containerPath": "/usr/share/elasticsearch/config/http.p12",
+          "sourceVolume": "_Elasticsearch-Ssl-HttpElasticsearchElasticsearchHttp_P12"
+        },
+        {
+          "containerPath": "/usr/share/elasticsearch/data",
+          "sourceVolume": "Elasticsearch_Data"
+        }
+      ],
+      "name": "elasticsearch",
+      "portMappings": [
+        {
+          "containerPort": 9200,
+          "hostPort": 9200
+        },
+        {
+          "containerPort": 9300,
+          "hostPort": 9300
+        }
+      ]
+    },
+    {
+      "environment": [
+        {
+          "name": "ES_JAVA_OPTS",
+          "value": "-Xms1g -Xmx2g"
+        }
+      ],
+      "essential": true,
+      "image": "docker.elastic.co/kibana/kibana:7.9.0",
+      "links": [
+        "elasticsearch"
+      ],
+      "mountPoints": [
+        {
+          "containerPath": "/usr/share/kibana/config/kibana.yml",
+          "sourceVolume": "_Kibana_Yml"
+        },
+        {
+          "containerPath": "/usr/share/kibana/config/kibana.crt",
+          "sourceVolume": "_Bundle-SslKibanaKibana_Crt"
+        },
+        {
+          "containerPath": "/usr/share/kibana/config/kibana.key",
+          "sourceVolume": "_Bundle-SslKibanaKibana_Key"
+        },
+        {
+          "containerPath": "/usr/share/kibana/config/ca.crt",
+          "sourceVolume": "_Bundle-SslCaCa_Crt"
+        }
+      ],
+      "name": "kibana",
+      "portMappings": [
+        {
+          "containerPort": 5601,
+          "hostPort": 5601
+        }
+      ]
+    },
+    {
+      "command": [
+        "logstash",
+        "-f",
+        "/etc/logstash/conf.d/logstash.conf"
+      ],
+      "essential": true,
+      "image": "docker.elastic.co/logstash/logstash:7.9.0",
+      "links": [
+        "elasticsearch"
+      ],
+      "mountPoints": [
+        {
+          "containerPath": "/etc/logstash/conf.d",
+          "sourceVolume": "__Conf_D"
+        },
+        {
+          "containerPath": "/etc/logstash/config/ca.crt",
+          "sourceVolume": "_Bundle-SslCaCa_Crt"
+        },
+        {
+          "containerPath": "/usr/share/logstash/config/logstash.yml",
+          "sourceVolume": "_Logstash_Yml"
+        }
+      ],
+      "name": "logstash",
+      "portMappings": [
+        {
+          "containerPort": 4560,
+          "hostPort": 4560
+        },
+        {
+          "containerPort": 9600,
+          "hostPort": 9600
+        },
+        {
+          "containerPort": 5044,
+          "hostPort": 5044
+        }
+      ]
+    },
+    {
+      "command": [
+        "/bin/bash",
+        "-c",
+        "bin/apply-config-from-env.py conf/standalone.conf && bin/pulsar standalone"
+      ],
+      "environment": [
+        {
+          "name": "BOOKIE_MEM",
+          "value": "\" -Xms512m -Xmx512m -XX:MaxDirectMemorySize=1g\""
+        }
+      ],
+      "essential": true,
+      "image": "apachepulsar/pulsar",
+      "mountPoints": [
+        {
+          "containerPath": "/data",
+          "sourceVolume": "OptPulsarData"
+        },
+        {
+          "containerPath": "/conf",
+          "sourceVolume": "OptPulsarConf"
+        }
+      ],
+      "name": "standalone",
+      "portMappings": [
+        {
+          "containerPort": 8080,
+          "hostPort": 8080
+        },
+        {
+          "containerPort": 6650,
+          "hostPort": 6650
+        }
+      ]
+    },
+    {
+      "essential": true,
+      "image": "travel-plan-api",
+      "mountPoints": [
+        {
+          "containerPath": "/log",
+          "sourceVolume": "_Log"
+        }
+      ],
+      "name": "travel-plan-api",
+      "portMappings": [
+        {
+          "containerPort": 8001,
+          "hostPort": 8001
+        }
+      ]
+    },
+    {
+      "essential": true,
+      "image": "travel-plan-elasticsearch",
+      "mountPoints": [
+        {
+          "containerPath": "/log",
+          "sourceVolume": "_Log"
+        },
+        {
+          "containerPath": "/usr/share/elasticsearch/config/ca.crt",
+          "sourceVolume": "_Bundle-SslCaCa_Crt"
+        }
+      ],
+      "name": "travel-plan-elasticsearch",
+      "portMappings": [
+        {
+          "containerPort": 8002,
+          "hostPort": 8002
+        }
+      ]
+    },
+    {
+      "essential": true,
+      "image": "eureka1",
+      "name": "travel-plan-eureka",
+      "portMappings": [
+        {
+          "containerPort": 7001,
+          "hostPort": 7001
+        }
+      ]
+    },
+    {
+      "command": [
+        "--smallfiles"
+      ],
+      "essential": true,
+      "image": "mongo:4.0",
+      "mountPoints": [
+        {
+          "containerPath": "/data/db",
+          "sourceVolume": "OptMongodb"
+        }
+      ],
+      "name": "travel-plan-mongo",
+      "portMappings": [
+        {
+          "containerPort": 27017,
+          "hostPort": 27017
+        }
+      ]
+    },
+    {
+      "command": [
+        "redis-server"
+      ],
+      "essential": true,
+      "image": "redis:5.0.5",
+      "mountPoints": [
+        {
+          "containerPath": "/data",
+          "sourceVolume": "OptRedisData"
+        },
+        {
+          "containerPath": "/logs",
+          "sourceVolume": "OptRedisLogs"
+        }
+      ],
+      "name": "travel-plan-redis",
+      "portMappings": [
+        {
+          "containerPort": 6379,
+          "hostPort": 6379
+        }
+      ]
+    },
+    {
+      "essential": true,
+      "image": "travel-plan-zuul",
+      "name": "travel-plan-zuul",
+      "portMappings": [
+        {
+          "containerPort": 9527,
+          "hostPort": 9527
+        }
+      ]
+    }
+  ],
+  "family": "",
+  "volumes": [
+    {
+      "host": {
+        "sourcePath": "/opt/mongodb"
+      },
+      "name": "OptMongodb"
+    },
+    {
+      "host": {
+        "sourcePath": "/opt/redis/data"
+      },
+      "name": "OptRedisData"
+    },
+    {
+      "host": {
+        "sourcePath": "/opt/redis/logs"
+      },
+      "name": "OptRedisLogs"
+    },
+    {
+      "host": {
+        "sourcePath": "./log"
+      },
+      "name": "_Log"
+    },
+    {
+      "host": {
+        "sourcePath": "./bundle-ssl/ca/ca.crt"
+      },
+      "name": "_Bundle-SslCaCa_Crt"
+    },
+    {
+      "host": {
+        "sourcePath": "./elasticsearch.yml"
+      },
+      "name": "_Elasticsearch_Yml"
+    },
+    {
+      "host": {
+        "sourcePath": "./bundle-ssl/elasticsearch/elasticsearch.key"
+      },
+      "name": "_Bundle-SslElasticsearchElasticsearch_Key"
+    },
+    {
+      "host": {
+        "sourcePath": "./bundle-ssl/elasticsearch/elasticsearch.crt"
+      },
+      "name": "_Bundle-SslElasticsearchElasticsearch_Crt"
+    },
+    {
+      "host": {
+        "sourcePath": "./elasticsearch-ssl-http/elasticsearch/elasticsearch/http.p12"
+      },
+      "name": "_Elasticsearch-Ssl-HttpElasticsearchElasticsearchHttp_P12"
+    },
+    {
+      "host": {
+        "sourcePath": "elasticsearch_data"
+      },
+      "name": "Elasticsearch_Data"
+    },
+    {
+      "host": {
+        "sourcePath": "./kibana.yml"
+      },
+      "name": "_Kibana_Yml"
+    },
+    {
+      "host": {
+        "sourcePath": "./bundle-ssl/kibana/kibana.crt"
+      },
+      "name": "_Bundle-SslKibanaKibana_Crt"
+    },
+    {
+      "host": {
+        "sourcePath": "./bundle-ssl/kibana/kibana.key"
+      },
+      "name": "_Bundle-SslKibanaKibana_Key"
+    },
+    {
+      "host": {
+        "sourcePath": "../conf.d"
+      },
+      "name": "__Conf_D"
+    },
+    {
+      "host": {
+        "sourcePath": "./logstash.yml"
+      },
+      "name": "_Logstash_Yml"
+    },
+    {
+      "host": {
+        "sourcePath": "/opt/pulsar/data"
+      },
+      "name": "OptPulsarData"
+    },
+    {
+      "host": {
+        "sourcePath": "/opt/pulsar/conf"
+      },
+      "name": "OptPulsarConf"
+    }
+  ]
+}
