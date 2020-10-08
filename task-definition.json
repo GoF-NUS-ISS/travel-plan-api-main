@@ -15,15 +15,7 @@
              "containerPath": "/log",
              "sourceVolume": "./log"
            }
-         ],
-         "logConfiguration":{
-           "logDriver":"awslogs",
-           "options":{
-             "awslogs-group":"/ecs/traval-plan-api-main",
-             "awslogs-region":"us-east-1",
-             "awslogs-stream-prefix":"mongo"
-           }
-         }
+         ]
        },
       {
         "essential": true,
@@ -44,15 +36,7 @@
             "containerPath": "/data/db",
             "sourceVolume": "/opt/mongodb"
           }
-        ],
-        "logConfiguration":{
-          "logDriver":"awslogs",
-          "options":{
-            "awslogs-group":"/ecs/traval-plan-api-main",
-            "awslogs-region":"us-east-1",
-            "awslogs-stream-prefix":"mongo"
-          }
-        }
+        ]
       },
       {
         "command": [
@@ -76,15 +60,7 @@
             "containerPort": 6379,
             "hostPort": 6379
           }
-        ],
-        "logConfiguration":{
-          "logDriver":"awslogs",
-          "options":{
-            "awslogs-group":"/ecs/traval-plan-api-main",
-            "awslogs-region":"us-east-1",
-            "awslogs-stream-prefix":"redis"
-          }
-        }
+        ]
       },
       {
         "command": [
@@ -120,15 +96,7 @@
             "containerPort": 6650,
             "hostPort": 6650
           }
-        ],
-        "logConfiguration":{
-          "logDriver":"awslogs",
-          "options":{
-            "awslogs-group":"/ecs/traval-plan-api-main",
-            "awslogs-region":"us-east-1",
-            "awslogs-stream-prefix":"pulsar"
-          }
-        }
+        ]
       }
 
     ],
