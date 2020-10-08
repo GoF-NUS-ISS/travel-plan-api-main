@@ -13,7 +13,7 @@
          "mountPoints": [
            {
              "containerPath": "/log",
-             "sourceVolume": "efs-volume"
+             "sourceVolume": "application_scratch"
            }
          ],
          "logConfiguration":{
@@ -42,7 +42,7 @@
         "mountPoints": [
           {
             "containerPath": "/data/db",
-            "sourceVolume": "efs-volume"
+            "sourceVolume": "application_scratch"
           }
         ],
         "logConfiguration":{
@@ -63,11 +63,11 @@
         "mountPoints": [
           {
             "containerPath": "/data",
-            "sourceVolume": "efs-volume"
+            "sourceVolume": "application_scratch"
           },
           {
             "containerPath": "/logs",
-            "sourceVolume": "efs-volume"
+            "sourceVolume": "application_scratch"
           }
         ],
         "name": "redis",
@@ -103,11 +103,11 @@
         "mountPoints": [
           {
             "containerPath": "/data",
-            "sourceVolume": "efs-volume"
+            "sourceVolume": "application_scratch"
           },
           {
             "containerPath": "/conf",
-            "sourceVolume": "efs-volume"
+            "sourceVolume": "application_scratch"
           }
         ],
         "name": "pulsar",
@@ -143,11 +143,8 @@
      ],
     "volumes": [
       {
-        "name": "efs-volume",
-        "efsVolumeConfiguration": {
-          "fileSystemId": "fs-b09bcf32",
-          "rootDirectory": "/data"
-        }
+      "name": "application_scratch",
+      "host": {}
       }
     ]
  }
