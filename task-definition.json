@@ -15,7 +15,15 @@
              "containerPath": "/log",
              "sourceVolume": "./log"
            }
-         ]
+         ],
+         "logConfiguration":{
+           "logDriver":"awslogs",
+           "options":{
+             "awslogs-group":"/ecs/traval-plan-api-main",
+             "awslogs-region":"us-east-1",
+             "awslogs-stream-prefix":"ecs/travel-plan-api-main"
+           }
+         }
        },
       {
         "essential": true,
@@ -109,14 +117,6 @@
     "requiresCompatibilities": [ 
         "FARGATE" 
      ],
-    "logConfiguration":{
-      "logDriver":"awslogs",
-      "options":{
-        "awslogs-group":"/ecs/traval-plan-api-main",
-        "awslogs-region":"us-east-1",
-        "awslogs-stream-prefix":"ecs"
-      }
-    },
     "volumes": [
       {
         "name": "efs-volume",
