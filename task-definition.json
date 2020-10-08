@@ -13,7 +13,7 @@
          "mountPoints": [
            {
              "containerPath": "/log",
-             "sourceVolume": "./log"
+             "sourceVolume": "efs-volume"
            }
          ],
          "logConfiguration":{
@@ -42,7 +42,7 @@
         "mountPoints": [
           {
             "containerPath": "/data/db",
-            "sourceVolume": "/opt/mongodb"
+            "sourceVolume": "efs-volume"
           }
         ]
       },
@@ -55,11 +55,11 @@
         "mountPoints": [
           {
             "containerPath": "/data",
-            "sourceVolume": "/opt/redis/data"
+            "sourceVolume": "efs-volume"
           },
           {
             "containerPath": "/logs",
-            "sourceVolume": "/opt/redis/logs"
+            "sourceVolume": "efs-volume"
           }
         ],
         "name": "redis",
@@ -87,11 +87,11 @@
         "mountPoints": [
           {
             "containerPath": "/data",
-            "sourceVolume": "/opt/pulsar/data"
+            "sourceVolume": "efs-volume"
           },
           {
             "containerPath": "/conf",
-            "sourceVolume": "/opt/pulsar/conf"
+            "sourceVolume": "efs-volume"
           }
         ],
         "name": "pulsar",
