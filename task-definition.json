@@ -28,6 +28,26 @@
        },
       {
         "essential": true,
+        "name": "travel-plan-eureka-api",
+        "image": "docker.io/gofnusiss/travel-plan-eureka-api:20201005-173926.c60a102",
+        "portMappings": [
+          {
+            "containerPort": 7001,
+            "hostPort": 7001,
+            "protocol": "tcp"
+          }
+        ],
+        "logConfiguration":{
+          "logDriver":"awslogs",
+          "options":{
+            "awslogs-group":"ecs/travel-app-log-grp-main-app",
+            "awslogs-region":"us-east-1",
+            "awslogs-stream-prefix":"eureka"
+          }
+        }
+      },
+      {
+        "essential": true,
         "name": "mongo",
         "image": "docker.io/mongo:4.0",
         "portMappings": [
