@@ -20,9 +20,9 @@
          "logConfiguration":{
            "logDriver":"awslogs",
            "options":{
-             "awslogs-group":"/ecs/traval-plan-api-main",
+             "awslogs-group":"ecs/travel-app-log-grp-main-app",
              "awslogs-region":"us-east-1",
-             "awslogs-stream-prefix":"ecs/travel-plan-api-main"
+             "awslogs-stream-prefix":"travel-plan-api-main"
            }
          }
        },
@@ -49,9 +49,9 @@
         "logConfiguration":{
           "logDriver":"awslogs",
           "options":{
-            "awslogs-group":"/ecs/traval-plan-api-main",
+            "awslogs-group":"ecs/travel-app-log-grp-main-app",
             "awslogs-region":"us-east-1",
-            "awslogs-stream-prefix":"ecs/mongo"
+            "awslogs-stream-prefix":"mongo"
           }
         }
       },
@@ -81,9 +81,9 @@
         "logConfiguration":{
           "logDriver":"awslogs",
           "options":{
-            "awslogs-group":"/ecs/traval-plan-api-main",
+            "awslogs-group":"ecs/travel-app-log-grp-main-app",
             "awslogs-region":"us-east-1",
-            "awslogs-stream-prefix":"ecs/redis"
+            "awslogs-stream-prefix":"redis"
           }
         }
       },
@@ -125,9 +125,9 @@
         "logConfiguration":{
           "logDriver":"awslogs",
           "options":{
-            "awslogs-group":"/ecs/traval-plan-api-main",
+            "awslogs-group":"ecs/travel-app-log-grp-main-app",
             "awslogs-region":"us-east-1",
-            "awslogs-stream-prefix":"ecs/pulsar"
+            "awslogs-stream-prefix":"pulsar"
           }
         }
       }
