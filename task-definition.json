@@ -104,11 +104,11 @@
         "mountPoints": [
           {
             "containerPath": "/data",
-            "sourceVolume": "application_scratch"
+            "sourceVolume": "efs-volume"
           },
           {
             "containerPath": "/conf",
-            "sourceVolume": "application_scratch"
+            "sourceVolume": "efs-volume"
           }
         ],
         "name": "pulsar",
