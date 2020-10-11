@@ -1,0 +1,82 @@
+{
+    "containerDefinitions": [ 
+       { 
+          "essential": false,
+          "name": "travel-plan-api",
+          "image": "gofnusiss/travel-plan-api:2fc6675aa3a15d51d4fbebf89ed6685b6970825d",
+          "portMappings": [ 
+             { 
+                "containerPort": 8001,
+                "hostPort": 8001,
+                "protocol": "tcp"
+             }
+          ]
+       },
+      {
+        "essential": true,
+        "name": "mongo",
+        "image": "docker.io/mongo:4.0",
+        "portMappings": [
+          {
+            "containerPort": 27017,
+            "hostPort": 27017,
+            "protocol": "tcp"
+          }
+        ],
+        "command": [
+          "--smallfiles"
+        ]
+      },
+      {
+        "command": [
+          "redis-server"
+        ],
+        "essential": false,
+        "image": "docker.io/redis:5.0.5",
+        "name": "redis",
+        "portMappings": [
+          {
+            "containerPort": 6379,
+            "hostPort": 6379
+          }
+        ]
+      },
+      {
+        "command": [
+          "/bin/bash",
+          "-c",
+          "bin/apply-config-from-env.py conf/standalone.conf && bin/pulsar standalone"
+        ],
+        "environment": [
+          {
+            "name": "BOOKIE_MEM",
+            "value": "\" -Xms512m -Xmx512m -XX:MaxDirectMemorySize=1g\""
+          }
+        ],
+        "essential": false,
+        "image": "docker.io/apachepulsar/pulsar",
+        "name": "pulsar",
+        "portMappings": [
+          {
+            "containerPort": 8080,
+            "hostPort": 8080
+          },
+          {
+            "containerPort": 6650,
+            "hostPort": 6650
+          }
+        ]
+      }
+
+    ],
+
+    "cpu": "256",
+    "executionRoleArn": "arn:aws:iam::356567610291:role/ecsTaskExecutionRole",
+    "family": "task-def-travel-plan-api-main",
+    "memory": "512",
+    "networkMode": "awsvpc",
+    "requiresCompatibilities": [ 
+        "FARGATE" 
+     ]
+
+ }
