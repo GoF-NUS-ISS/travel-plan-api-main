@@ -14,8 +14,7 @@ spring:
     name: microservicecloud-travel-plan
    data: 
     mongodb: 
-      #uri: mongodb://mongo:27017
-      uri: localhost:27017
+      uri: mongodb://localhost:27017
       database: travelplan
    redis:
       database: 0
