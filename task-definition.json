@@ -1,5 +1,25 @@
 {
-    "containerDefinitions": [ 
+    "containerDefinitions": [
+        {
+          "essential": true,
+          "name": "travel-plan-zuul-api",
+          "image": "docker.io/gofnusiss/travel-plan-zuul-api:20201005-173926.c60a102",
+          "portMappings": [
+            {
+              "containerPort": 9527,
+              "hostPort": 9527,
+              "protocol": "tcp"
+            }
+          ],
+          "logConfiguration":{
+            "logDriver":"awslogs",
+            "options":{
+              "awslogs-group":"ecs/travel-app-log-grp-main-app",
+              "awslogs-region":"us-east-1",
+              "awslogs-stream-prefix":"zuul"
+            }
+          }
+        },
        { 
           "essential": true,
           "name": "travel-plan-api",
